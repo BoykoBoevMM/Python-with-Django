@@ -1,5 +1,14 @@
 # Django Migrations and Database
 
+- `python manage.py startproject` : Initializes a new Django project.
+- `python manage.py startapp` : Creates a new Django app within a project.
+- `python manage.py runserver` : Starts the development server.
+- `python manage.py makemigrations` : Creates new migrations based on changes to models.
+- `python manage.py migrate` : Applies database migrations.
+- `python manage.py createsuperuser` : Creates a superuser account for the admin panel.
+- `python manage.py collectstatic` : Collects static files from each of your applications (and any other places you specify) into a single location that can easily be served in production.
+- `python manage.py test` : Runs tests for all installed apps.
+
 
 ### `makemigrations`
 ```

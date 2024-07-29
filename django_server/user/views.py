@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import datetime
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 def login(request):
     context = {
@@ -10,8 +11,19 @@ def login(request):
     # return HttpResponse("<h2>Login page</h2>")
 
 def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('blog-home')
+    else:
+        form = UserCreationForm()
+            
     context = {
-        'title': 'Register' 
+        'title': 'Register',
+        'form': form
     }
     return render(request, 'user/register.html', context)
     # return HttpResponse("<h2>Register page</h2>")
