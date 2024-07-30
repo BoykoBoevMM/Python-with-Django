@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
-
-def logout(request):
-    return render(request, 'user/logout.html')
 
 def login(request):
     context = {
@@ -31,3 +29,10 @@ def register(request):
     }
     return render(request, 'user/register.html', context)
     # return HttpResponse("<h2>Register page</h2>")
+    
+def logout(request):
+    return render(request, 'user/logout.html')
+
+@login_required
+def profile(request):
+    return render(request, 'user/profile.html')
