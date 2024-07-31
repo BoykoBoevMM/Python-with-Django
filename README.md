@@ -64,5 +64,179 @@ Django is a high-level Python web framework that encourages rapid development an
 
 Thus, in Django, the pattern is sometimes referred to as MTV (Model-Template-View).
 
+## Important parts to emphasize
 
+### Views
+Django views are responsible for processing user requests and returning responses. There are two types of views in Django: function-based views (FBVs) and class-based views (CBVs).
 
+#### Function-Based Views (FBVs)
+Example of a simple function-based view:
+```
+# views.py
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.all()
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
+```
+#### Class-Based Views (CBVs)
+Example of class-based views using Django's generic views:
+```
+# views.py
+from django.views.generic import ListView, DetailView
+from .models import Post
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
+```
+
+### Models
+Django models define the structure of your database tables. Each model maps to a single table in the database.
+
+Example of a simple Post model for a blog application:
+```
+# models.py
+from django.db import models
+from django.contrib.auth.models import User
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to='post_images/', blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+```
+
+### Migrations
+Migrations are how Django propagates changes you make to your models (adding a field, deleting a model, etc.) into your database schema.
+
+After defining or changing models, create migrations using:
+- `python manage.py makemigrations`
+
+Apply the migrations to update your database schema:
+- `python manage.py migrate`
+
+Example Migration File:
+```
+# migrations/0001_initial.py
+from django.db import migrations, models
+import django.db.models.deletion
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        ('auth', '0012_auto_20210601_1527'),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='Post',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=100)),
+                ('content', models.TextField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('image', models.ImageField(blank=True, null=True, upload_to='post_images/')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.user')),
+            ],
+        ),
+    ]
+```
+
+### ORM Queries
+Django's ORM (Object-Relational Mapping) allows you to interact with your database using Python code instead of SQL.
+
+#### Basic ORM Queries
+Creating Objects
+```
+# Create a new post
+post = Post.objects.create(title='My First Post', content='This is the content', author=user)
+```
+
+Retrieving Objects
+```
+# Get all posts
+posts = Post.objects.all()
+
+# Get a single post by primary key
+post = Post.objects.get(pk=1)
+
+# Get posts by a specific author
+user_posts = Post.objects.filter(author=user)
+```
+
+Updating Objects
+```
+# Update a post
+post = Post.objects.get(pk=1)
+post.title = 'Updated Title'
+post.save()
+```
+
+Deleting Objects
+```
+# Delete a post
+post = Post.objects.get(pk=1)
+post.delete()
+```
+
+#### Advanced ORM Queries
+Querying with Lookups
+```
+# Get posts with titles containing 'Django'
+posts = Post.objects.filter(title__icontains='Django')
+```
+Order By
+```
+# Get posts ordered by creation date
+posts = Post.objects.order_by('created_at')
+# Get posts ordered by creation date in descending order
+posts = Post.objects.order_by('-created_at')
+```
+
+Aggregations
+```
+from django.db.models import Count, Avg
+
+# Get the total number of posts
+total_posts = Post.objects.count()
+
+# Get the average length of post content
+average_length = Post.objects.aggregate(Avg('content'))
+```
+
+Related Objects
+```
+# Get all posts by a specific author
+author = User.objects.get(username='john')
+posts_by_author = author.post_set.all()
+
+# Get the author of a specific post
+post = Post.objects.get(pk=1)
+author_of_post = post.author
+```
+
+## Summary
+- Views: Define how data is presented to the user. Use function-based views (FBVs) or class-based views (CBVs).
+- Models: Define the structure of your database. Use Django models to create database tables.
+- Migrations: Propagate changes to your models into your database schema using migrations.
+- ORM Queries: Use Django's ORM to interact with your database using Python code.
