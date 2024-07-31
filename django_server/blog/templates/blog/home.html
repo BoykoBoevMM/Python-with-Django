@@ -4,6 +4,11 @@
 {% block content %}
     <div>
         <h1>Home Page</h1>
+        
+        <div class="content-section">
+            <a href="{% url 'post-create' %}">Create new post</a>
+        </div>
+
         <div>
             {% for post in posts %}
                 <article class="media content-section">

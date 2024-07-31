@@ -1,6 +1,6 @@
 
 {% extends "blog/base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
     <div>
         <article class="media content-section">
@@ -17,5 +17,29 @@
                 <a class="btn btn-outline-danger" type="submit" href="{% url 'post-delete' object.id %}">Delete</a>
             {% endif %}
         </article>
+
+
+        <div class="media content-section">
+            <h3>Commentt section</h3>
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                </form>
+            </div>
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-metadata">
+                        <a class="mr-2" href="#">{{ comment.author.username }}</a>
+                        <small class="text-muted">{{ comment.date|date:"d F Y" }}</small>
+                    </div>
+                  {{ comment.content|linebreaks }}
+                </div>
+            {% empty %}
+                <p>There are no comments yet.</p>
+            {% endfor %}
+
+        </div>
     </div>
 {% endblock content %}

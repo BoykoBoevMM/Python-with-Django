@@ -5,12 +5,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
 
+
 def login(request):
     context = {
         'title': 'Login' 
     }
     return render(request, 'user/login.html', context)
     # return HttpResponse("<h2>Login page</h2>")
+
 
 def register(request):
     if request.method == 'POST':
@@ -29,9 +31,11 @@ def register(request):
     }
     return render(request, 'user/register.html', context)
     # return HttpResponse("<h2>Register page</h2>")
-    
+
+
 def logout(request):
     return render(request, 'user/logout.html')
+
 
 @login_required
 def profile(request):

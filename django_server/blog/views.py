@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post
+from .models import Post, Comment
+from .forms import CommentForm
 import datetime
 
 
@@ -22,6 +23,31 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        
+        post = self.get_object()
+        comments = Comment.objects.filter(post=post).order_by('-date')
+        context['comments'] = comments
+        
+        return context
+    
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user
+    #     form.instance.post = self.request.post
+    #     return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        post = self.get_object()
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = self.request.user
+            comment.save()
+            return redirect('post-detail', pk=post.id)
         
 
 class PostCreateView(LoginRequiredMixin, CreateView):

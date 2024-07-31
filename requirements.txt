@@ -10,6 +10,7 @@ debugpy==1.8.2
 decorator==5.1.1
 Django==5.0.7
 django-crispy-forms==2.3
+django-taggit==6.0.0
 executing==2.0.1
 idna==3.7
 ipykernel==6.29.5
@@ -23,6 +24,7 @@ numpy==2.0.1
 packaging==24.1
 pandas==2.2.2
 parso==0.8.4
+pillow==10.4.0
 platformdirs==4.2.2
 prompt_toolkit==3.0.47
 psutil==6.0.0
