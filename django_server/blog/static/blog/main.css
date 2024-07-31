@@ -58,9 +58,9 @@ body {
   }
   
   .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
+    max-height: 400px;
+    max-width: 100%;
+    /* margin-right: 16px; */
   }
   
   .article-metadata {

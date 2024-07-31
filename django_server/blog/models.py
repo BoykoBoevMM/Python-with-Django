@@ -12,7 +12,7 @@ class Post(models.Model):
     date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     link = models.URLField(null=True)
-    image = models.ImageField(null=True)
+    image = models.ImageField(upload_to='post_images')
     # likes = models.ManyToManyField(User)
 
     def __str__(self):

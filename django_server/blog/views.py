@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import PostForm, CommentForm
 import datetime
 
 
@@ -26,18 +26,19 @@ class PostDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_form'] = CommentForm()
-        
         post = self.get_object()
+        
+        context['comment_form'] = CommentForm()
         comments = Comment.objects.filter(post=post).order_by('-date')
         context['comments'] = comments
         
         return context
     
-    # def form_valid(self, form):
-    #     form.instance.author = self.request.user
-    #     form.instance.post = self.request.post
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        post = self.get_object()
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
     
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
@@ -52,7 +53,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -61,8 +62,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
-    template_name = 'blog/post_form.html'
+    form_class = PostForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
