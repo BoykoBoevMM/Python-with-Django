@@ -11,8 +11,8 @@ class Post(models.Model):
     # tags = TaggableManager() 
     date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    link = models.URLField()
-    image = models.ImageField()
+    link = models.URLField(null=True)
+    image = models.ImageField(null=True)
     # likes = models.ManyToManyField(User)
 
     def __str__(self):
