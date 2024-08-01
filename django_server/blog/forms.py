@@ -10,5 +10,5 @@ class CommentForm(ModelForm):
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'link', 'image']
+        fields = ['title', 'content', 'link', 'tags', 'image']
         template_name = 'blog/post_form.html'

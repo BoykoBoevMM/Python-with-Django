@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post, Comment
+from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
 import datetime
 
@@ -16,9 +16,33 @@ def home(request):
     
 class PostListView(ListView):
     model = Post
+    tags = Tag
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected_tag = self.request.GET.get('tag')
+        if selected_tag:
+            context['posts'] = Post.objects.filter(tags__name__in=[selected_tag])
+        else:
+            context['posts'] = Post.objects.all()
+        context['tags'] = Tag.objects.all()
+        context['selected_tag'] = self.request.GET.get('tag')
+        return context
+    
+    # def get_queryset(self):
+    #     if self.request.method == 'GET':
+    #         tags = self.request.GET.get('tag', None)
+    #         print(tags)
+    #         return tags
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        tag_name = self.request.GET.get('tag')
+        if tag_name:
+            queryset = queryset.filter(tags__name=tag_name)  # Filter by tag name
+        return queryset
     
 
 class PostDetailView(DetailView):

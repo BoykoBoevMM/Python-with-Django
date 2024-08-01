@@ -16,6 +16,12 @@
                 <p class="article-content">{{ object.content }}</p>
                 <a href="{{ object.link }}" target="_blank">LEARN MORE ...</a>
             </div>
+            <div>
+                Tags:
+                {% for tag in object.tags.all %}
+                    <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
+                {% endfor %}
+            </div>
             {% if object.author == user %}
                 <a class="btn btn-outline-info" type="submit" href="{% url 'post-update' object.id %}">Update</a>
                 <a class="btn btn-outline-danger" type="submit" href="{% url 'post-delete' object.id %}">Delete</a>
