@@ -4,7 +4,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
-import datetime
 
 
 def home(request):
@@ -29,19 +28,13 @@ class PostListView(ListView):
         else:
             context['posts'] = Post.objects.all()
         context['tags'] = Tag.objects.all()
-        context['selected_tag'] = self.request.GET.get('tag')
         return context
     
-    # def get_queryset(self):
-    #     if self.request.method == 'GET':
-    #         tags = self.request.GET.get('tag', None)
-    #         print(tags)
-    #         return tags
     def get_queryset(self):
         queryset = super().get_queryset()
         tag_name = self.request.GET.get('tag')
         if tag_name:
-            queryset = queryset.filter(tags__name=tag_name)  # Filter by tag name
+            queryset = queryset.filter(tags__name=tag_name)
         return queryset
     
 
@@ -51,11 +44,9 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
-        
         context['comment_form'] = CommentForm()
         comments = Comment.objects.filter(post=post).order_by('-date')
         context['comments'] = comments
-        
         return context
     
     def form_valid(self, form):

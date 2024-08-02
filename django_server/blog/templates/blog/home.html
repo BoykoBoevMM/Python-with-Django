@@ -11,9 +11,12 @@
         
         <div class="content-section">
             <h4>Filter section</h4>
-                {% for tag in tags %}
-                    <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
-                {% endfor %}
+                <a href="{% url 'blog-home' %}">Clear Filters</a>
+                <div>
+                    {% for tag in tags %}
+                        <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
             </div>
             
             <div>
