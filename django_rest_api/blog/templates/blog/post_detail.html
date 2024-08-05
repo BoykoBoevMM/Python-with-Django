@@ -1,0 +1,55 @@
+
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div>
+        <article class="media content-section">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date|date:"d F Y" }}</small>
+            </div>
+            <div class="media-body">
+                <h1 class="mt-2 mb-2">{{ object.title }}</h1>
+                {% if object.image %}
+                    <img src="{{ object.image.url }}" class="article-img"/>
+                {% endif %}
+                <p class="article-content">{{ object.content }}</p>
+                <a href="{{ object.link }}" target="_blank">LEARN MORE ...</a>
+            </div>
+            <div>
+                Tags:
+                {% for tag in object.tags.all %}
+                    <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
+                {% endfor %}
+            </div>
+            {% if object.author == user %}
+                <a class="btn btn-outline-info" type="submit" href="{% url 'post-update' object.id %}">Update</a>
+                <a class="btn btn-outline-danger" type="submit" href="{% url 'post-delete' object.id %}">Delete</a>
+            {% endif %}
+        </article>
+
+
+        <div class="media content-section">
+            <h3>Comment section</h3>
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                </form>
+            </div>
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="comment-metadata">
+                        <a class="mr-2" href="#">{{ comment.author.username }}</a>
+                        <small class="text-muted">{{ comment.date|date:"d F Y" }}</small>
+                    </div>
+                  {{ comment.content|linebreaks }}
+                </div>
+            {% empty %}
+                <p>There are no comments yet.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock content %}

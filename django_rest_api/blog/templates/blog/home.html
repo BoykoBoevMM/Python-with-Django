@@ -1,0 +1,47 @@
+
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div>
+        <h1>Home Page</h1>
+        
+        <div class="content-section">
+            <a href="{% url 'post-create' %}">Create new post</a>
+        </div>
+        
+        <div class="content-section">
+            <h4>Filter section</h4>
+                <a href="{% url 'blog-home' %}">Clear Filters</a>
+                <div>
+                    {% for tag in tags %}
+                        <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div>
+                {% for post in posts %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <h4>
+                                <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                            </h4>
+                            <p class="article-content">{{ post.content }}</p>
+                            <div>
+                                Tags:
+                                {% for tag in post.tags.all %}
+                                    <a href="{% url 'blog-home' %}?tag={{ tag }}">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div>
+                          <a href="#">{{ post.author }}</a>
+                          <small class="text-muted">{{ post.date|date:"d F Y" }}</small>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
