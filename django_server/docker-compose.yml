@@ -2,14 +2,15 @@
 
 services: 
   django:
-    container_name: django
+    container_name: django_mtc_container
     build:
-      context: ./django_rest_api
-    command: python manage.py runserver 0.0.0.0:8000
+      context: ../
+      dockerfile: django_server/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
     volumes:
-      - ./django_rest_api:/app
+      - ./django_server:/app
     ports:
-      - 8000:8000
+      - 8001:8001
     environment:
       - DEBUG=1
       - SECRET_KEY=django-insecure-^3^96bjl1*rw74@+tzcywu%u4sg0ij_v#*3(@nbt3###a^r@me

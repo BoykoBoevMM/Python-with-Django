@@ -1,0 +1,17 @@
+# version: '3.8'
+
+services: 
+  django:
+    container_name: django_rest_api_container
+    build:
+      context: ../
+      dockerfile: django_rest_api/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django_rest_api:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-^3^96bjl1*rw74@+tzcywu%u4sg0ij_v#*3(@nbt3###a^r@me
+      - ALLOWED_HOSTS=localhost,127.0.0.1
