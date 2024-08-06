@@ -1,119 +1,72 @@
-# Django Migrations and Database
+## Usage:  docker [OPTIONS] COMMAND
 
-- `python manage.py startproject` : Initializes a new Django project.
-- `python manage.py startapp` : Creates a new Django app within a project.
-- `python manage.py runserver` : Starts the development server.
-- `python manage.py makemigrations` : Creates new migrations based on changes to models.
-- `python manage.py migrate` : Applies database migrations.
-- `python manage.py createsuperuser` : Creates a superuser account for the admin panel.
-- `python manage.py collectstatic` : Collects static files from each of your applications (and any other places you specify) into a single location that can easily be served in production.
-- `python manage.py test` : Runs tests for all installed apps.
+A self-sufficient runtime for containers
 
+Common Commands:
+- run         Create and run a new container from an image
+- exec        Execute a command in a running container
+- ps          List containers
+- build       Build an image from a Dockerfile
+- pull        Download an image from a registry
+- push        Upload an image to a registry
+- images      List images
+- login       Log in to a registry
+- logout      Log out from a registry
+- search      Search Docker Hub for images
+- version     Show the Docker version information
+- info        Display system-wide information
 
-### `makemigrations`
-```
-C:\Boyko Boev\Python-with-Django\django_server (main -> origin)
-λ python manage.py makemigrations
-Migrations for 'user':
-  user\migrations\0001_initial.py
-    - Create model Post
-```
+Management Commands:
+- builder     Manage builds
+- buildx*     Docker Buildx
+- compose*    Docker Compose
+- container   Manage containers
+- context     Manage contexts
+- debug*      Get a shell into any image or container
+- desktop*    Docker Desktop commands (Alpha)
+- dev*        Docker Dev Environments
+- extension*  Manages Docker extensions
+- feedback*   Provide feedback, right in your terminal!
+- image       Manage images
+- init*       Creates Docker-related starter files for your project
+- manifest    Manage Docker image manifests and manifest lists
+- network     Manage networks
+- plugin      Manage plugins
+- sbom*       View the packaged-based Software Bill Of Materials (SBOM) for an image
+- scout*      Docker Scout
+- system      Manage Docker
+- trust       Manage trust on Docker images
+- volume      Manage volumes
 
-### `migrate`
-```
-C:\Boyko Boev\Python-with-Django\django_server (main -> origin)
-λ python manage.py migrate
-Operations to perform:
-  Apply all migrations: admin, auth, contenttypes, sessions, user
-Running migrations:
-  Applying user.0001_initial... OK
-```
+Swarm Commands:
+- swarm       Manage Swarm
 
-### `shell` ( Get user data )
-```
-C:\Boyko Boev\Python-with-Django\django_server (main -> origin)
-λ python manage.py shell
-Python 3.11.8 (tags/v3.11.8:db85d51, Feb  6 2024, 22:03:32) [MSC v.1937 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license" for more information.
-(InteractiveConsole)
->>> from user.models import Post
->>> from django.contrib.auth.models import User
->>> User.objects.all()
-<QuerySet [<User: BoykoBoev>, <User: TestAdmin>]>
->>> User.objects.first()
-<User: BoykoBoev>
->>> User.objects.last()
-<User: TestAdmin>
->>> User.objects.filter(username='BoykoBoev')
-<QuerySet [<User: BoykoBoev>]>
->>> User.objects.filter(username='BoykoBoev').first()
-<User: BoykoBoev>
->>> user = User.objects.filter(username='BoykoBoev').first()
->>> user
-<User: BoykoBoev>
->>> user.username
-'BoykoBoev'
->>> user.email
-'boyko.boev@mentormate.com'
->>> user.id
-1
-```
-
-### `shell` ( Create first post )
-```
->>> Post.objects.all()
-<QuerySet []>
->>> post_1 = Post(title-'Blog_1', content='First post content', author=user)
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'title' is not defined
->>> post_1 = Post(title='Blog_1', content='First post content', author=user)
->>> post_1.save()
->>> Post.objects.all()
-<QuerySet [<Post: Post object (1)>]>
->>> q()
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'q' is not defined
->>> quit()
-```
-
-
-### `shell` ( Create second post )
-```
-C:\Boyko Boev\Python-with-Django\django_server (main -> origin)
-λ python manage.py shell
-Python 3.11.8 (tags/v3.11.8:db85d51, Feb  6 2024, 22:03:32) [MSC v.1937 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license" for more information.
-(InteractiveConsole)
->>> from user.models import Post
->>> from django.contrib.auth.models import User
->>> Post.objects.all()
-<QuerySet [<Post: Blog_1>]>
->>> user = User.objects.filter(username='BoykoBoev').first()
->>> user.id
-1
->>> user.email
-'boyko.boev@mentormate.com'
->>> post_2 = Post(title='Blog 2', content='Second post content', author_id=user.id)
->>> post_2.save()
->>> Post.objects.all()
-<QuerySet [<Post: Blog_1>, <Post: Blog 2>]>
->>> user.post_set
-<django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x000001D8FDC23910>
->>> user.post_set.all()
-<QuerySet [<Post: Blog_1>, <Post: Blog 2>]>
->>>
-```
-
-### `shell` ( Create third post )
-```
->>> user.post_set.all()
-<QuerySet [<Post: Blog_1>, <Post: Blog 2>]>
->>>
->>> user.post_set.create(title='Blog 3', content='Third post content')
-<Post: Blog 3>
->>> Post.objects.all()
-<QuerySet [<Post: Blog_1>, <Post: Blog 2>, <Post: Blog 3>]>
->>>
-```
+Commands:
+- attach      Attach local standard input, output, and error streams to a running container
+- commit      Create a new image from a container's changes
+- cp          Copy files/folders between a container and the local filesystem
+- create      Create a new container
+- diff        Inspect changes to files or directories on a container's filesystem
+- events      Get real time events from the server
+- export      Export a container's filesystem as a tar archive
+- history     Show the history of an image
+- import      Import the contents from a tarball to create a filesystem image
+- inspect     Return low-level information on Docker objects
+- kill        Kill one or more running containers
+- load        Load an image from a tar archive or STDIN
+- logs        Fetch the logs of a container
+- pause       Pause all processes within one or more containers
+- port        List port mappings or a specific mapping for the container
+- rename      Rename a container
+- restart     Restart one or more containers
+- rm          Remove one or more containers
+- rmi         Remove one or more images
+- save        Save one or more images to a tar archive (streamed to STDOUT by default)
+- start       Start one or more stopped containers
+- stats       Display a live stream of container(s) resource usage statistics
+- stop        Stop one or more running containers
+- tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+- top         Display the running processes of a container
+- unpause     Unpause all processes within one or more containers
+- update      Update configuration of one or more containers
+- wait        Block until one or more containers stop, then print their exit codes
