@@ -1,42 +1,34 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm
+from rest_framework import status
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
+from django.contrib.auth import login
+from django.contrib.auth.models import User
+
+from .serializers import RegisterSerializer, LoginSerializer
 
 
-def login(request):
-    context = {
-        'title': 'Login' 
-    }
-    return render(request, 'user/login.html', context)
-    # return HttpResponse("<h2>Login page</h2>")
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+    
+    def post(self, request, *args, **kwargs):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail": "User successfully registered."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
-            return redirect('blog-home')
-    else:
-        form = UserRegisterForm()
-            
-    context = {
-        'title': 'Register',
-        'form': form
-    }
-    return render(request, 'user/register.html', context)
-    # return HttpResponse("<h2>Register page</h2>")
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [AllowAny]
 
-
-def logout(request):
-    return render(request, 'user/logout.html')
-
-
-@login_required
-def profile(request):
-    return render(request, 'user/profile.html')
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            login(request, user)
+            return Response({"detail": "Successfully logged in."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

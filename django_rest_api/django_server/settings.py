@@ -34,6 +34,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'blog.apps.BlogConfig',
     'user.apps.UserConfig',
     'crispy_forms',
