@@ -18,11 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
+from user.views import LoginView, RegisterView
+
+router = routers.DefaultRouter()
+router.register(r'login', LoginView, basename='user-login')
+router.register(r'register', RegisterView, basename='user-register')
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
-    # path('', include('blog.urls')),
-    path('', include('user.urls')),
+    path('', include(router.urls)),
+    # path('', include('user.urls')),
 ]
 
 # if settings.DEBUG:

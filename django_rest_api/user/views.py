@@ -1,5 +1,4 @@
-from rest_framework import status
-from rest_framework import generics
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
@@ -9,11 +8,12 @@ from django.contrib.auth.models import User
 from .serializers import RegisterSerializer, LoginSerializer
 
 
-class RegisterView(generics.CreateAPIView):
+class RegisterView(viewsets.ModelViewSet):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
+    queryset = []
     
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -21,11 +21,12 @@ class RegisterView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginView(generics.GenericAPIView):
+class LoginView(viewsets.ModelViewSet):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
+    queryset = []
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
