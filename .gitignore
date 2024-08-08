@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+health-bridge-backend-development/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

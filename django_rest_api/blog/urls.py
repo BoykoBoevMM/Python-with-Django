@@ -1,13 +1,21 @@
 from django.urls import path, include
 from rest_framework import routers
 from . import views
-# from .views import
  
 router = routers.DefaultRouter()
 router.register(r'posts', views.PostListCreateViewSet, basename='blog-home')
- 
+
 urlpatterns = [
     path('', include(router.urls)),
+    path('posts/<int:post_id>/comments/', views.CommentViewSet.as_view({
+        'get': 'list',
+        'post': 'create'
+    }), name='post-comments-list'),
+    path('posts/<int:post_id>/comments/<int:pk>/', views.CommentViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy'
+    }), name='post-comments-detail'),
     # path('posts/', views.PostListCreateView.as_view(), name='blog-home'),
     # path('posts/new', PostCreateView.as_view(), name='post-create'),
     # path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
