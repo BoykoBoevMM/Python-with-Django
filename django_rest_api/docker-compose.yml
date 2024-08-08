@@ -7,6 +7,11 @@ services:
       context: ../
       dockerfile: django_rest_api/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
+    develop:
+      watch:
+      - action: sync
+        path: ./django_rest_api
+        target: ./django_rest_api
     volumes:
       - ./django_rest_api:/app
     ports:

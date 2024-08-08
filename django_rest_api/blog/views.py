@@ -2,8 +2,18 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+from rest_framework import generics, viewsets
+
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
+from .serializers import PostSerializer 
+
+
+class PostListCreateViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
 
 
 def home(request):
