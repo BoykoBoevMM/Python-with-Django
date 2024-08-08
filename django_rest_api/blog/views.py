@@ -7,13 +7,12 @@ from rest_framework import generics, viewsets
 
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostSerializer, CommentSerializer, TagSerializer
 
 
-class PostListCreateViewSet(viewsets.ModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -23,6 +22,11 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         blog_post_id = self.kwargs['post_id']
         return Comment.objects.filter(post=blog_post_id)
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 # def home(request):

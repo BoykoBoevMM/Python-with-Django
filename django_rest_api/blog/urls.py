@@ -3,7 +3,8 @@ from rest_framework import routers
 from . import views
  
 router = routers.DefaultRouter()
-router.register(r'posts', views.PostListCreateViewSet, basename='blog-home')
+router.register(r'posts', views.PostViewSet, basename='blog-home')
+router.register(r'tags', views.TagViewSet, basename='post-tags')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -16,6 +17,8 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy'
     }), name='post-comments-detail'),
+
+    
     # path('posts/', views.PostListCreateView.as_view(), name='blog-home'),
     # path('posts/new', PostCreateView.as_view(), name='post-create'),
     # path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
