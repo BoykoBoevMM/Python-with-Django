@@ -7,16 +7,13 @@ services:
       context: ../
       dockerfile: django_rest_api/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
-    develop:
-      watch:
-      - action: sync
-        path: ./django_rest_api
-        target: ./django_rest_api
     volumes:
-      - ./django_rest_api:/app
+      - .:/app
     ports:
       - 8000:8000
     environment:
       - DEBUG=1
       - SECRET_KEY=django-insecure-^3^96bjl1*rw74@+tzcywu%u4sg0ij_v#*3(@nbt3###a^r@me
       - ALLOWED_HOSTS=localhost,127.0.0.1
+    stdin_open: true
+    tty: true
