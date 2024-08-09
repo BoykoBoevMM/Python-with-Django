@@ -30,9 +30,9 @@ class LoginSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)  # Get or create the token for the user
+        token, created = Token.objects.get_or_create(user=user)
         return {
-            'token': token.key,  # Return the token key
+            'token': token.key,
             'user_id': user.pk,
             'username': user.username,
             'email': user.email

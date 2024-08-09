@@ -3,17 +3,37 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, permissions
 
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
 from .serializers import PostSerializer, CommentSerializer, TagSerializer
+from .guards import IsAuthenticated, IsCreator, IsAdmin, IsAdminOrIsCreator
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
+    
+    # def list(self, request, *args, **kwargs):
+    #     print("Request Reached View")  # Debug statement
+    #     return super().list(request, *args, **kwargs)
+    
+    def get_permissions(self):        
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        
+        if self.action in ['update', 'partial_update', 'destroy']:
+            return [IsAuthenticated(), IsAdminOrIsCreator()]
+        
+        if self.action == 'create':
+            return [IsAuthenticated()]
+        
+        return super().get_permissions()
+    
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+        
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
