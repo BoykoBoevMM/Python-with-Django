@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from rest_framework import generics, viewsets, permissions
+from rest_framework import generics, viewsets, permissions, serializers
 
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
@@ -29,8 +29,8 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-        
+        serializer.save(author=self.request.user)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
@@ -51,7 +51,6 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']
         post = get_object_or_404(Post, id=post_id)
-        user = self.request.user
         serializer.save(post=post)
     
     def get_queryset(self):

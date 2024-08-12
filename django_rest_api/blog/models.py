@@ -18,7 +18,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     link = models.URLField(null=True)
     image = models.ImageField(upload_to='post_images', blank=True, null=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     # likes = models.ManyToManyField(User)
 
     def __str__(self):
