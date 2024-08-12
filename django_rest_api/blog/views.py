@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -15,9 +15,26 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     
-    # def list(self, request, *args, **kwargs):
-    #     print("Request Reached View")  # Debug statement
-    #     return super().list(request, *args, **kwargs)
+    def get_permissions(self):        
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        
+        if self.action in ['update', 'partial_update', 'destroy']:
+            return [IsAuthenticated(), IsAdminOrIsCreator()]
+        
+        if self.action == 'create':
+            return [IsAuthenticated()]
+        
+        return super().get_permissions()
+
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+        
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:
@@ -30,15 +47,13 @@ class PostViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated()]
         
         return super().get_permissions()
-    
+
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-        
-
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-
+        post_id = self.kwargs['post_id']
+        post = get_object_or_404(Post, id=post_id)
+        user = self.request.user
+        serializer.save(post=post)
+    
     def get_queryset(self):
         blog_post_id = self.kwargs['post_id']
         return Comment.objects.filter(post=blog_post_id)

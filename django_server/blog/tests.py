@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from .models import User, Tag, Post
-# Create your tests here.
+
 
 class PostListViewTest(TestCase):
     def setUp(self):
