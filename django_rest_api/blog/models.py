@@ -36,3 +36,13 @@ class Comment(models.Model):
     
     def __str__(self):
         return self.content
+
+
+class Vote(models.Model):
+    vote_type = models.CharField(max_length=2)
+    date = models.DateTimeField(default=timezone.now)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE) 
+    
+    # def __str__(self):
+    #     return self.vote_type
