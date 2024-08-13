@@ -4,16 +4,19 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from rest_framework import generics, viewsets, permissions, serializers
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Tag, Post, Comment
 from .forms import PostForm, CommentForm
 from .serializers import PostSerializer, CommentSerializer, TagSerializer
 from .guards import IsAuthenticated, IsCreator, IsAdmin, IsAdminOrIsCreator
+from .pagination import HashtagsPagination
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PageNumberPagination
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:
@@ -61,6 +64,13 @@ class CommentViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    pagination_class = HashtagsPagination
+     
+    def get_permissions(self):        
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        
+        return [IsAdmin()]
 
 
 # def home(request):
