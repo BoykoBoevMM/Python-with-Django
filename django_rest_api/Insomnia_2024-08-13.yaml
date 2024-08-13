@@ -1,0 +1,843 @@
+_type: export
+__export_format: 4
+__export_date: 2024-08-13T13:40:34.529Z
+__export_source: insomnia.desktop.app:v9.3.3
+resources:
+  - _id: req_f00e1c11afb64580afdcb9b5e869e487
+    parentId: fld_d900016694b741f08824b465c9272564
+    modified: 1723133072681
+    created: 1722331806696
+    url: http://localhost:8000/register/
+    name: /register
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "TestTest4",
+        	"email": "test1.test@gmail.com",
+        	"password1": "1234567890",
+        	"password2": "1234567890"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/9.3.2
+    authentication: {}
+    metaSortKey: -1723118134413
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_d900016694b741f08824b465c9272564
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723550081632
+    created: 1723118122958
+    name: user
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1723178373722
+    _type: request_group
+  - _id: wrk_0ab182d453194292a4e58ec413229f40
+    parentId: null
+    modified: 1723038672069
+    created: 1722331787622
+    name: Django REST API
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_f4ffc14bfc0040eb8fd3c12755ade80f
+    parentId: fld_d900016694b741f08824b465c9272564
+    modified: 1723134362179
+    created: 1723038678454
+    url: http://localhost:8000/login/
+    name: /login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "TestTest4",
+        	"password": "1234567890"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/9.3.3
+    authentication: {}
+    metaSortKey: -1723118134388
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_49c177e05fa54c37b32f5829cc121fec
+    parentId: fld_d900016694b741f08824b465c9272564
+    modified: 1723134453671
+    created: 1723038692296
+    url: http://localhost:8000/logout/
+    name: /logout
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+    authentication: {}
+    metaSortKey: -1723118134363
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_27f10aa8f6454c30ad6291558ac0a170
+    parentId: fld_037695391e64481ab65467b1093aae1d
+    modified: 1723546913001
+    created: 1723115123600
+    url: http://localhost:8000/posts/?page=2
+    name: /posts
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_6c16bb5beb464d118a9b518c754e6c6c
+      - id: pair_89e2cdf1e5ab4da1bc28ac5ab63a0f93
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_ddca55a7b01e43ef9a7f43f37ebe06c0
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_8e93918bf9af451c9d2d3beeaa0b6cb3
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1723118103812
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_037695391e64481ab65467b1093aae1d
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723550098276
+    created: 1723118089541
+    name: posts
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1723168331978
+    _type: request_group
+  - _id: req_a54cda0e92994c6ab842d2fb88cfb88e
+    parentId: fld_037695391e64481ab65467b1093aae1d
+    modified: 1723550522453
+    created: 1723115125202
+    url: http://localhost:8000/posts/
+    name: /posts
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"title": "NEW TEST 7",
+        		"content": "Test blogpost content",
+        		"link": "https://www.django-rest-framework.org/",
+        		"tags": ["TEST"]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_a2fef3d610bf44a591409e0c41a57bde
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_a2545dcd41914d05bbca0458ab5161a4
+      - id: pair_725c46bdb32c41d3b85a111dd6c2893b
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_8fb288bfcd2f4efc90494734ebea3a1f
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: false
+      - id: pair_286415e9a236424e8ee6bed03c689a93
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication:
+      type: none
+    metaSortKey: -1723118103712
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e9813e63b6af4adcb8d42224c62091af
+    parentId: fld_037695391e64481ab65467b1093aae1d
+    modified: 1723550553609
+    created: 1723117866042
+    url: http://localhost:8000/posts/32/
+    name: /posts/id
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_598ca5e05d494c17abef808fadcbfd49
+      - id: pair_6750054017ba4a27ac27a346b79d0116
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_9f2a4f2022a1497ca0e1076b48258cbe
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_2aee596946e0430b89ba57515ea582b3
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1723118103612
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5c28b5ae0ced4cf7964c75908802409f
+    parentId: fld_037695391e64481ab65467b1093aae1d
+    modified: 1723550575642
+    created: 1723117868185
+    url: http://localhost:8000/posts/32/
+    name: /posts/id
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |
+        {
+        		"title": "EDIT",
+        		"content": "Test blogpost content",
+        		"link": "https://www.django-rest-framework.org/",
+        		"tags": ["TEST3", "TEST2"]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b402af870ba34974925988b83cd3b59f
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_f2e3957702c041feb4877983ab9cd787
+      - id: pair_876449d99e0e453d8d017091843ea5cf
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: false
+      - id: pair_368c3dd8db7241a6be57c044f47cd702
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_e0f9564098e04b44ae5a6dc9fe8fcfdc
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723118103512
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_49d2086df9ab40638ec1180c08f100b7
+    parentId: fld_037695391e64481ab65467b1093aae1d
+    modified: 1723542975002
+    created: 1723118029439
+    url: http://localhost:8000/posts/24/
+    name: /posts/id
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_0fb6504b0ed54d63a1dc29aec78faee9
+      - id: pair_58f68534176b4ec99c45e3e695c067e3
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: false
+      - id: pair_b5e20b7a1d564f94a887ab916356e843
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_6254c4b4b48546d0b0e3ec3def3558cb
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723118103412
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_99ba12b28fa646578f079641243b2434
+    parentId: fld_5bff1fb0e4b8464198a2d6e157432660
+    modified: 1723555988910
+    created: 1723550113720
+    url: http://localhost:8000/posts/32/vote/
+    name: /posts/id/votes
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"vote_type": 1
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b022a3a414f945fabcb190c719eaddcb
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_d37cded5961146f78ee05fc60be0a08f
+      - id: pair_b471fa37b20f49978b88bc51175717e8
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: false
+      - id: pair_95a5cfefedfe42eca4260b805ff5ddd1
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_b68a1c324b3f47ab8e6b56578ab46156
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723550116106
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_5bff1fb0e4b8464198a2d6e157432660
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723550075189
+    created: 1723550062473
+    name: votes
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1723158290234
+    _type: request_group
+  - _id: req_32c07ee5dfb6404eb0680963ae86dceb
+    parentId: fld_5bff1fb0e4b8464198a2d6e157432660
+    modified: 1723556125155
+    created: 1723556053084
+    url: http://localhost:8000/posts/32/vote/3/
+    name: /posts/id/votes/id
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"vote_type": 1
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_c70b1993c9a9434da4ecdfd04b274589
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_d7973ed6beaf4b2eba05b603aa0e8eeb
+      - id: pair_89983151003242be89c2caed9ef46400
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_274555264b2d4ac99d5fbf8dd4f41e99
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: false
+      - id: pair_20712872165d4756a01c9147b63dd7cd
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723550116056
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_bd6e9d86dbc34262970e375397da19a9
+    parentId: fld_5bff1fb0e4b8464198a2d6e157432660
+    modified: 1723555970828
+    created: 1723198457210
+    url: http://localhost:8000/posts/32/vote/3
+    name: /posts/id/votes
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_d2b8a7d0689e4b7aa0542e4605f888de
+      - id: pair_2430bf64b5584e51ba164af610f96b9f
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_f8725ff76bb248c0801be53d2aabb81b
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: false
+      - id: pair_13c95510ed39497d9c8fe3804eb7cbd3
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723550116006
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_74b8f138a44c4db7a6e7c75481d27206
+    parentId: fld_a1c67229abcd499a98505b042398f1b5
+    modified: 1723122163412
+    created: 1723122050128
+    url: http://localhost:8000/posts/1/comments
+    name: /posts/id/comments
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+    authentication: {}
+    metaSortKey: -1723122054519
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_a1c67229abcd499a98505b042398f1b5
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723550108777
+    created: 1723122033553
+    name: comments
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1723138206746
+    _type: request_group
+  - _id: req_34d3b4635aa240a1856a4ed924ce7dd7
+    parentId: fld_a1c67229abcd499a98505b042398f1b5
+    modified: 1723460591053
+    created: 1723122045819
+    url: http://localhost:8000/posts/1/comments/
+    name: /posts/id/comments
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"content": "DJANGO REST API"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_0fd61f0ed9064fe7b8a2df67357e2ad1
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_4e369b1a131f4189adb6861d25b64e59
+      - id: pair_8e5db76ee0d941aa979398eecd552167
+        name: Authorization
+        value: Token 5f6d54e9bbf476266c586966c0474cd929e201ce
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1723122054419
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_baa90ad657534158b62d293f37514e48
+    parentId: fld_a1c67229abcd499a98505b042398f1b5
+    modified: 1723465027886
+    created: 1723122051109
+    url: http://localhost:8000/posts/1/comments/17/
+    name: /posts/id/comments/id
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+    authentication: {}
+    metaSortKey: -1723122054369
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_22dcfea4de1b4f0394b55d81f69c0151
+    parentId: fld_a1c67229abcd499a98505b042398f1b5
+    modified: 1723465032688
+    created: 1723122935428
+    url: http://localhost:8000/posts/1/comments/17/
+    name: /posts/id/comments/id
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"content": "DJANGO NEW COMMENT"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_f15c59827c0a463aba7c529175aacc07
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_f51e6743935541b8be36dabba8aa3cab
+      - id: pair_53f10351f611402588989792992d9967
+        name: Authorization
+        value: Token 5f6d54e9bbf476266c586966c0474cd929e201ce
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1723122054344
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ddb74144f48f4f1598df9c8caadf3e6b
+    parentId: fld_a1c67229abcd499a98505b042398f1b5
+    modified: 1723465004239
+    created: 1723122042281
+    url: http://localhost:8000/posts/1/comments/16/
+    name: /posts/id/comments/id
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_110fd9caa33f41d4bb5da5f36230adaa
+      - id: pair_75ac57dcb3f14446bb90dc394a8666ec
+        name: Authorization
+        value: Token 5f6d54e9bbf476266c586966c0474cd929e201ce
+        description: ""
+        disabled: false
+    authentication: {}
+    metaSortKey: -1723122054319
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c6df3841c7fe4721ab305cb01b00e13c
+    parentId: fld_6a855d77649f407093397e2d6a144745
+    modified: 1723550457690
+    created: 1723128414031
+    url: http://localhost:8000/tags/?page=1
+    name: /tags
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_76d31143067b4429a16733a26afd4d2f
+      - id: pair_937cd285082f4b9b9ca369521de423a2
+        name: Authorization
+        value: "{{ admin }}"
+        description: ""
+        disabled: false
+      - id: pair_0e9293f550db456ea7ba33df752de224
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_67b695271cf74f678057422453610833
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+        type: text
+        multiline: false
+    authentication: {}
+    metaSortKey: -1723128416293
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_6a855d77649f407093397e2d6a144745
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723128412051
+    created: 1723128394909
+    name: tags
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1723118123258
+    _type: request_group
+  - _id: req_acfae01a820f4b1c9e880548727b80c0
+    parentId: fld_6a855d77649f407093397e2d6a144745
+    modified: 1723547279058
+    created: 1723128466378
+    url: http://localhost:8000/tags/
+    name: /tags
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"name": "New Tag"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_3a7845691a9f46a68eebb2a1f976b761
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_08e30a259346481b883bf0b476f00623
+      - id: pair_6412f7d209454cc4aa94eb099c937191
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: true
+      - id: pair_d6271f358a034aaeba79186218c0c4c4
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: false
+      - id: pair_bf619b9af6404a0082be2918fd2b9fb3
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723128416193
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_76d9e3c7046d4735bdb3f3172a1b77f0
+    parentId: fld_6a855d77649f407093397e2d6a144745
+    modified: 1723547768224
+    created: 1723128531906
+    url: http://localhost:8000/tags/11/
+    name: /tags/id
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/9.3.3
+        id: pair_0f00a2aaf1054f48b119691481f9bb15
+      - id: pair_c0f6c9ea104d4c21b5e54ba71f478227
+        name: Authorization
+        value: "{{admin}}"
+        description: ""
+        disabled: false
+      - id: pair_3467951129d840da877585eaf870322b
+        name: Authorization
+        value: "{{user}}"
+        description: ""
+        disabled: true
+      - id: pair_38f966a5db02448e934c4ce0b2b7f290
+        name: Authorization
+        value: "{{guest}}"
+        description: ""
+        disabled: true
+    authentication: {}
+    metaSortKey: -1723128416093
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_a98eaf5991e9786719950857c64ec7c290ff6569
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723542229530
+    created: 1722331787636
+    name: Base Environment
+    data:
+      admin: Token 788416235e1a25525004943b38ad1634759b5e81
+      user: Token 5f6d54e9bbf476266c586966c0474cd929e201ce
+      guest: ""
+    dataPropertyOrder:
+      "&":
+        - admin
+        - user
+        - guest
+    color: null
+    isPrivate: false
+    metaSortKey: 1722331787636
+    _type: environment
+  - _id: jar_a98eaf5991e9786719950857c64ec7c290ff6569
+    parentId: wrk_0ab182d453194292a4e58ec413229f40
+    modified: 1723556126157
+    created: 1722331787638
+    name: Default Jar
+    cookies:
+      - key: csrftoken
+        value: hbMvaBMxUZTcjeyoEfB4WvBrOtGRjdhY
+        expires: 2025-08-07T14:31:20.000Z
+        maxAge: 31449600
+        domain: localhost
+        path: /
+        hostOnly: true
+        creation: 2024-08-07T14:03:36.328Z
+        lastAccessed: 2024-08-08T14:31:20.677Z
+        sameSite: lax
+        id: d2c921a1-3172-4eaa-91b4-3fe37474f5a9
+      - key: sessionid
+        value: '""'
+        expires: 1970-01-01T00:00:00.000Z
+        maxAge: 0
+        domain: localhost
+        path: /
+        hostOnly: true
+        creation: 2024-08-07T14:03:36.330Z
+        lastAccessed: 2024-08-13T13:35:26.157Z
+        sameSite: lax
+        id: 3a207c63-b07f-4dce-9b4a-474bcab895c7
+    _type: cookie_jar
