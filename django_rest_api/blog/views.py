@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from rest_framework import generics, viewsets, permissions, mixins
+from rest_framework import generics, viewsets, permissions, mixins, filters
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Tag, Post, Comment, Vote
@@ -17,6 +17,8 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = PageNumberPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:
@@ -29,6 +31,20 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+        
+    def get_queryset(self):
+        order_by = '-date'
+        order = self.request.query_params.get('order')
+        if order == 'asc':
+            order_by = 'date'
+ 
+        queryset = self.queryset.order_by(order_by)
+ 
+        hashtag = self.request.query_params.get('hashtag')
+        if hashtag is not None:
+            queryset = queryset.filter(tags=hashtag)
+ 
+        return queryset
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -45,12 +61,12 @@ class CommentViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def perform_create(self, serializer):
-        post_id = self.kwargs['post_id']
+        post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, id=post_id)
         serializer.save(post=post)
     
     def get_queryset(self):
-        blog_post_id = self.kwargs['post_id']
+        blog_post_id = self.kwargs.get('post_id')
         return Comment.objects.filter(post=blog_post_id)
 
 
@@ -73,7 +89,7 @@ class VoteView(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.Gener
 
     def perform_create(self, serializer):
         user = self.request.user
-        post_id = self.kwargs['post_id']
+        post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, id=post_id)
         # import pdb; pdb.set_trace()
         serializer.save(post=post, author=user)
