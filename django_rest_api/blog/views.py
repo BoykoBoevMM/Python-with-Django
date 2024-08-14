@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Count
 
 from rest_framework import generics, viewsets, permissions, mixins, filters
 from rest_framework.pagination import PageNumberPagination
@@ -17,8 +18,10 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = PageNumberPagination
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title']
+    ordering_fields = ['date']
+
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:
@@ -34,15 +37,26 @@ class PostViewSet(viewsets.ModelViewSet):
         
     def get_queryset(self):
         order_by = '-date'
+        hot = self.request.query_params.get('hot')
         order = self.request.query_params.get('order')
+        hashtag = self.request.query_params.get('hashtag')
+
         if order == 'asc':
             order_by = 'date'
  
         queryset = self.queryset.order_by(order_by)
  
-        hashtag = self.request.query_params.get('hashtag')
         if hashtag is not None:
             queryset = queryset.filter(tags=hashtag)
+            
+        if hot is not None:
+            queryset = queryset.annotate(
+                num_comments=Count('comment'),
+                # num_votes=Count('votes')
+            ).filter(
+                num_comments__gte=2,
+                # num_votes__gt=5
+            )
  
         return queryset
 

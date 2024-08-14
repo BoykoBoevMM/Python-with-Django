@@ -8,39 +8,6 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['name', 'id']
         read_only_fields = ['id']
-        
-    # def validate_tags(self, value):
-    #     if len(value) > 10:
-    #         raise serializers.ValidationError("Hashtags limit is 10!")
-    #     return value
-    
-    # def create(self, validated_data):
-    #     # tags_data = validated_data.pop('tags', [])
-    #     tags = []
-    #     for tag_name in validated_data:
-    #         tag, created = Tag.objects.get_or_create(name=tag_name)
-    #         tags.append(tag)
-        
-    #     # post.tags.set(tags)
-    #     return tags
-    
-    # # def create_many(self, )
-    
-    # def update(self, instance, validated_data):
-    #     tags_data = validated_data.pop('tags', [])
-        
-    #     # for attr, value in validated_data.items():
-    #     #     setattr(instance, attr, value)
-    #     # instance.save()
-        
-    #     tags = []
-    #     for tag_name in tags_data:
-    #         tag, created = Tag.objects.get_or_create(name=tag_name)
-    #         tags.append(tag)
-        
-    #     # instance.tags.set(tags)
-        
-    #     return instance
 
 
 class VoteSerializer(serializers.ModelSerializer):
@@ -86,12 +53,13 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
     votes = VoteSerializer(many=True, source='vote_set', read_only=True)
+    comments = CommentSerializer(many=True, source='comment_set', read_only=True)
     
     class Meta:
         model = Post
         # fields = '__all__'
-        fields = ['id', 'title', 'content', 'link', 'tags', 'author', 'date', 'votes']
-        read_only_fields = ['id', 'author', 'date', 'votes']
+        fields = ['id', 'title', 'content', 'link', 'tags', 'author', 'date', 'votes', 'comments']
+        read_only_fields = ['id', 'author', 'date', 'votes', 'comments']
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
