@@ -34,14 +34,14 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
     'rest_framework.authtoken',
-    'blog.apps.BlogConfig',
-    'user.apps.UserConfig',
-    'taggit',
-    # 'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
+    'user.apps.UserConfig',
+    'blog.apps.BlogConfig',
+    'taggit',
+    'rest_framework',
+    # 'bootstrap4',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -92,6 +92,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'user.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

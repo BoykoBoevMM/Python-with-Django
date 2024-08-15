@@ -7,12 +7,13 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 from .serializers import RegisterSerializer, LoginSerializer
+from .models import CustomUser
 
 
 class RegisterView(viewsets.ModelViewSet):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     
     def create(self, request, *args, **kwargs):
         serializer = RegisterSerializer(data=request.data)
@@ -30,7 +31,7 @@ class RegisterView(viewsets.ModelViewSet):
 class LoginView(viewsets.ModelViewSet):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
 
     def create(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
