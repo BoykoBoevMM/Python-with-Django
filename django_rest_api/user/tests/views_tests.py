@@ -1,5 +1,4 @@
 import pytest
-from rest_framework.test import APIClient
 from django.urls import reverse
 from rest_framework import status
 from user.models import CustomUser
@@ -11,32 +10,34 @@ def test_user_create():
   assert CustomUser.objects.count() == 1
   
 
-# @pytest.mark.django_db
-# def test_user_login():
-#     client = APIClient()
-#     data = {
-#         "username": "TestTest",
-#         "email": "test@test.com",
-#         "password1": "1234567890",
-#         "password2": "1234567890"
-#     }
-#     response = client.post("/register/", data, format='json')
-#     assert response.status_code == status.HTTP_201_CREATED
-#     assert CustomUser.objects.count() == 1
-#     assert CustomUser.objects.post() == data
+@pytest.mark.django_db
+def test_user_register(client):
+    data = {
+        "username": "TestTest",
+        "email": "test@test.com",
+        "password1": "1234567890",
+        "password2": "1234567890"
+    }
+    url = reverse('user-register-list')
+    response = client.post(url, data)
+    assert response.status_code == status.HTTP_201_CREATED
+    assert CustomUser.objects.count() == 1
+    assert response.data['email'] == data['email']
 
 
-# @pytest.mark.django_db
-# def test_user_login():
-#     client = APIClient()
-    
-#     data = {
-#         "username": "TestTest",
-#         "password": "1234567890"
-#     }
-    
-#     response = client.post(reverse('user-login-list'), data)
-    
-#     assert response.status_code == status.HTTP_201_CREATED
-#     assert CustomUser.objects.count() == 1
-#     assert CustomUser.objects.post().title == "Test Post"
+@pytest.mark.django_db
+def test_user_login(client):
+    email = 'test@test.com'
+    username = 'testTest'
+    password = '1234567890'
+    CustomUser.objects.create_user(username, email, password)
+    data = {
+        "username": username,
+        "password": password
+    }
+    url = reverse('user-login-list')
+    response = client.post(url, data)
+    print(response)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.data['email'] == email
+    assert response.data['username'] == username
