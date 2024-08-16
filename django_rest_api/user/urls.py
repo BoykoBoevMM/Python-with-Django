@@ -1,19 +1,16 @@
 from django.urls import path
-# from django.contrib.auth.views import LogoutView
+from rest_framework import routers
 from .views import RegisterView, LoginView
-from rest_framework.routers import DefaultRouter
 
 
-# router = DefaultRouter()
-
-# router.register(r'login', LoginView, basename='user-login')
-# router.register(r'register', RegisterView, basename='user-register')
-
-# urlpatterns = router.urls
+router = routers.DefaultRouter()
+router.register(r'login', LoginView, basename='user-login')
+router.register(r'register', RegisterView, basename='user-register')
 
 urlpatterns = [
-    path('login/', LoginView.as_view(), name='user-login'),
-    path('register/', RegisterView.as_view(), name='user-register'),
+    # path('login/', LoginView.as_view(), name='user-login', basename='user-login'),
+    # path('register/', RegisterView.as_view(), name='user-register', basename='user-register'),
     # path('logout/', LogoutView.as_view(), name='user-logout'),
-    # path('profile/', profile, name='user-profile'),
 ]
+
+urlpatterns += router.urls
