@@ -21,7 +21,6 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title']
     ordering_fields = ['date']
-
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:

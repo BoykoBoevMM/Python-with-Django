@@ -3,9 +3,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 
-from django.contrib.auth import login
-from django.contrib.auth.models import User
-
 from .serializers import RegisterSerializer, LoginSerializer
 from .models import CustomUser
 
@@ -26,6 +23,7 @@ class RegisterView(viewsets.ModelViewSet):
                     'email': user.email
                 }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LoginView(viewsets.ModelViewSet):
