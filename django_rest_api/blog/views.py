@@ -8,7 +8,7 @@ from rest_framework import generics, viewsets, permissions, mixins, filters
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Tag, Post, Comment, Vote
-from .forms import PostForm, CommentForm
+# from .forms import PostForm, CommentForm
 from .serializers import PostSerializer, CommentSerializer, TagSerializer, VoteSerializer
 from .guards import IsAuthenticated, IsCreator, IsAdmin, IsAdminOrIsCreator
 from .pagination import HashtagsPagination
