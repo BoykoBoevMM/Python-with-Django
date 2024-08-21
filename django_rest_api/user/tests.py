@@ -74,9 +74,9 @@ class UserRegister(TestCase):
 class UserLogin(TestCase):
     url = reverse('user-login')
     validation = {
-        "invalid": ErrorDetail(
-            string='Invalid credentials.',
-            code='invalid'
+        "authentication_failed": ErrorDetail(
+            string='Invalid username or password.',
+            code='authentication_failed'
         ),
         "username": ErrorDetail(
             string='This field is required.', 
@@ -98,8 +98,8 @@ class UserLogin(TestCase):
     @pytest.mark.django_db
     def test_user_login_validation(self):
         response = self.client.post(self.url, user)
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.data['non_field_errors'] == [self.validation["invalid"]]
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert response.data['detail'] == self.validation["authentication_failed"]
     
     @pytest.mark.django_db
     def test_user_login(self):
