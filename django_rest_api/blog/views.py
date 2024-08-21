@@ -1,14 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
-from rest_framework import generics, viewsets, permissions, mixins, filters
+from rest_framework import viewsets, permissions, mixins, filters
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Tag, Post, Comment, Vote
-from .forms import PostForm, CommentForm
 from .serializers import PostSerializer, CommentSerializer, TagSerializer, VoteSerializer
 from .guards import IsAuthenticated, IsCreator, IsAdmin, IsAdminOrIsCreator
 from .pagination import HashtagsPagination
