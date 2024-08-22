@@ -82,7 +82,11 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdmin]
 
 
-class VoteView(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class VoteView(
+        mixins.CreateModelMixin, 
+        mixins.DestroyModelMixin, 
+        viewsets.GenericViewSet
+    ):
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
     permission_classes = [IsAuthenticated]
