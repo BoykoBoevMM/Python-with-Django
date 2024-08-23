@@ -11,9 +11,24 @@ services:
       - .:/app
     ports:
       - 8000:8000
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=django-insecure-^3^96bjl1*rw74@+tzcywu%u4sg0ij_v#*3(@nbt3###a^r@me
-      - ALLOWED_HOSTS=localhost,127.0.0.1
+    env_file:
+      - .env
     stdin_open: true
     tty: true
+    depends_on:
+      - database
+
+  database:
+    container_name: django_rest_database_container
+    image: postgres:15
+    volumes:
+      - data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+
+volumes:
+  data:

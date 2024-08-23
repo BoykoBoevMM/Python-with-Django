@@ -21,18 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = 'django-insecure-^3^96bjl1*rw74@+tzcywu%u4sg0ij_v#*3(@nbt3###a^r@me'
-# SECRET_KEY = os.environ.get('SECRET_KEY') 
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('DEBUG')
-DEBUG = True
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+DEBUG = os.getenv('DEBUG')
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django.contrib.admin',
@@ -84,9 +79,13 @@ WSGI_APPLICATION = 'django_server.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv('DATABASE_NAME'),
+        "USER": os.getenv('DATABASE_USER'),
+        "PASSWORD": os.getenv('DATABASE_PASSWORD'),
+        "HOST": os.getenv('DATABASE_HOST'),
+        "PORT": os.getenv('DATABASE_PORT', 5432)
     }
 }
 
