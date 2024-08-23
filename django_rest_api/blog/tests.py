@@ -119,6 +119,8 @@ class TestCreateBlogPost:
 class TestBlogPostDetails:
     @pytest.mark.django_db
     def test_blog_post_detail(self, client, user, post):
+        first_post = Post.objects.first()
+        POST_DETAIL_URL = reverse('blog-home-detail', kwargs={'pk': first_post.id})
         response = client.get(POST_DETAIL_URL)
         assert response.status_code == status.HTTP_200_OK
         assert response.data['title'] == post_data['title']
@@ -126,6 +128,8 @@ class TestBlogPostDetails:
 
     @pytest.mark.django_db
     def test_blog_post_detail_unauthorized(self, client, user, post):
+        first_post = Post.objects.first()
+        POST_DETAIL_URL = reverse('blog-home-detail', kwargs={'pk': first_post.id})
         response = client.put(POST_DETAIL_URL, post_data)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
         assert Post.objects.count() == 2
@@ -133,6 +137,8 @@ class TestBlogPostDetails:
 
     @pytest.mark.django_db
     def test_blog_post_detail_validation(self, client, user, post):
+        first_post = Post.objects.first()
+        POST_DETAIL_URL = reverse('blog-home-detail', kwargs={'pk': first_post.id})
         validation = ErrorDetail(
             string='This field is required.', 
             code='required'
@@ -146,6 +152,8 @@ class TestBlogPostDetails:
 
     @pytest.mark.django_db
     def test_update_blog_post_detail(self, client, user, post):
+        first_post = Post.objects.first()
+        POST_DETAIL_URL = reverse('blog-home-detail', kwargs={'pk': first_post.id})
         token = login_user(client)
         response = client.put(
             POST_DETAIL_URL,
@@ -160,6 +168,8 @@ class TestBlogPostDetails:
 
     @pytest.mark.django_db
     def test_delete_blog_post_detail_validation(self, client, user, post):
+        first_post = Post.objects.first()
+        POST_DETAIL_URL = reverse('blog-home-detail', kwargs={'pk': first_post.id})
         assert Post.objects.count() == 2
         response = client.delete(POST_DETAIL_URL)
         assert Post.objects.count() == 2
