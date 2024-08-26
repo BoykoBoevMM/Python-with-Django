@@ -25,7 +25,7 @@ user = {
 }
 
 
-class UserRegister(TestCase):
+class UserRegisterTests(TestCase):
     url = reverse('user-register')
     validation = {
         "required": ErrorDetail(
@@ -71,7 +71,7 @@ class UserRegister(TestCase):
         assert response.data['username'] == [self.validation["username"]]
 
 
-class UserLogin(TestCase):
+class UserLoginTests(TestCase):
     url = reverse('user-login')
     validation = {
         "authentication_failed": ErrorDetail(
@@ -111,7 +111,7 @@ class UserLogin(TestCase):
         assert type(response.data['token']) is str
 
 
-class UserLogout(TestCase):
+class UserLogoutTests(TestCase):
     url = reverse('user-logout')
     
     @pytest.mark.django_db

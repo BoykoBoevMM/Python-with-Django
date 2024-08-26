@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 from .models import Post, Tag, Comment, Vote
 
@@ -15,7 +14,6 @@ class VoteSerializer(serializers.ModelSerializer):
         model = Vote
         fields = ['vote_type', 'author', 'id']
         read_only_fields = ['id', 'author', 'date']
-        # fields = '__all__'
         
     def validate_vote_type(self, value):
         VALID_TYPES = (0, 1)
@@ -51,20 +49,19 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True, read_only=True)
     votes = VoteSerializer(many=True, source='vote_set', read_only=True)
     comments = CommentSerializer(many=True, source='comment_set', read_only=True)
     
     class Meta:
         model = Post
-        # fields = '__all__'
         fields = ['id', 'title', 'content', 'link', 'tags', 'author', 'date', 'votes', 'comments']
-        read_only_fields = ['id', 'author', 'date', 'votes', 'comments']
+        read_only_fields = ['id', 'author', 'date', 'votes', 'comments', 'tags']
     
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['tags'] = [tag.name for tag in instance.tags.all()]
-        return representation
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['tags'] = [tag.name for tag in instance.tags.all()]
+    #     return representation
     
     def validate_tags(self, value):
         if len(value) > 10:
@@ -80,8 +77,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tags_data = validated_data.pop('tags', [])
-        post = Post.objects.create(**validated_data)
         tags = self.handle_tags(tags_data)
+        post = Post.objects.create(**validated_data)
         post.tags.set(tags)
         return post
     

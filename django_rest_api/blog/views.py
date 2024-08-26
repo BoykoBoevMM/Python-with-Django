@@ -17,6 +17,7 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title']
     ordering_fields = ['date']
+    ordering = ['-date']
     
     def get_permissions(self):        
         if self.action in ['list', 'retrieve']:
@@ -31,15 +32,10 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
         
     def get_queryset(self):
-        order_by = '-date'
         hot = self.request.query_params.get('hot')
-        order = self.request.query_params.get('order')
         hashtag = self.request.query_params.get('hashtag')
 
-        if order == 'asc':
-            order_by = 'date'
- 
-        queryset = self.queryset.order_by(order_by)
+        queryset = self.queryset
  
         if hashtag is not None:
             queryset = queryset.filter(tags=hashtag)
@@ -86,7 +82,11 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdmin]
 
 
-class VoteView(mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class VoteView(
+        mixins.CreateModelMixin, 
+        mixins.DestroyModelMixin, 
+        viewsets.GenericViewSet
+    ):
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
     permission_classes = [IsAuthenticated]
