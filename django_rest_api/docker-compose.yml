@@ -12,9 +12,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - .env
-    environment:
-      - DJANGO_SETTINGS_MODULE=django_server.settings.prod_settings
+      - .env.dev
     stdin_open: true
     tty: true
     depends_on:
@@ -26,11 +24,11 @@ services:
     volumes:
       - data:/var/lib/postgresql
     environment:
-      POSTGRES_DB: ${PROD_DATABASE_NAME}
-      POSTGRES_USER: ${PROD_DATABASE_USER}
-      POSTGRES_PASSWORD: ${PROD_DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - ${PROD_DATABASE_PORT}:${PROD_DATABASE_PORT}
+      - ${DATABASE_PORT}:${DATABASE_PORT}
 
 volumes:
   data:
