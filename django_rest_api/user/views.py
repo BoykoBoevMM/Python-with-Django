@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 
 from .serializers import RegisterSerializer, LoginSerializer
-
+from .tasks import send_confirmation_email
 
 class RegisterView(views.APIView):
     permission_classes = [AllowAny]
@@ -16,6 +16,8 @@ class RegisterView(views.APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        recipient_list = [user.email]
+        send_confirmation_email.delay(recipient_list)
         token, created = Token.objects.get_or_create(user=user)
         return Response({
                 'id': user.pk,
