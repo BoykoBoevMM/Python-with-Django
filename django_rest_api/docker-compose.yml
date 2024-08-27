@@ -1,6 +1,6 @@
 services: 
   django:
-    container_name: django_rest_api_container
+    container_name: django_container
     build:
       context: ../
       dockerfile: django_rest_api/Dockerfile
@@ -18,7 +18,7 @@ services:
       - redis
 
   database:
-    container_name: django_rest_database_container
+    container_name: database_container
     image: postgres:15
     volumes:
       - data:/var/lib/postgresql
@@ -28,6 +28,7 @@ services:
       - 5432:5432
 
   celery:
+    container_name: celery_container
     build:
       context: ../
       dockerfile: django_rest_api/Dockerfile
@@ -38,6 +39,7 @@ services:
       - redis
 
   redis:
+    container_name: redis_container
     image: redis:alpine
     ports:
       - "6379:6379"
