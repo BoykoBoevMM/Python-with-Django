@@ -28,9 +28,11 @@ ipdb==0.13.13
 ipykernel==6.29.5
 ipython==8.26.0
 jedi==0.19.1
+Jinja2==3.1.4
 jupyter_client==8.6.2
 jupyter_core==5.7.2
 kombu==5.4.0
+MarkupSafe==2.1.5
 matplotlib-inline==0.1.7
 nest-asyncio==1.6.0
 numpy==2.0.1
@@ -48,6 +50,8 @@ pure_eval==0.2.3
 Pygments==2.18.0
 pytest==8.3.2
 pytest-django==4.8.0
+pytest-html==4.1.1
+pytest-metadata==3.1.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
