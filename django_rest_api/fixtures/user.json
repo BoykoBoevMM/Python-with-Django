@@ -1,0 +1,20 @@
+[
+    {   
+        "model": "user.CustomUser",
+        "pk": 1,
+        "fields": {
+            "username": "TestTest1",
+            "email": "test1@test.com",
+            "password": "1234567890"
+        }
+    },
+    {   
+        "model": "user.CustomUser",
+        "pk": 2,
+        "fields": {
+            "username": "TestTest2",
+            "email": "test2@test.com",
+            "password": "1234567890"
+        }
+    }
+]

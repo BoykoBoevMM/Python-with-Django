@@ -1,0 +1,23 @@
+[
+    {   
+        "model": "blog.Tag",
+        "pk": 1,
+        "fields": {
+            "name": "django"
+        }
+    },
+    {   
+        "model": "blog.Tag",
+        "pk": 2,
+        "fields": {
+            "name": "python"
+        }
+    },
+    {   
+        "model": "blog.Tag",
+        "pk": 3,
+        "fields": {
+            "name": "docker"
+        }
+    }
+]

@@ -1,8 +1,6 @@
-# version: '3.8'
-
 services: 
   django:
-    container_name: django_rest_api_container
+    container_name: django_container
     build:
       context: ../
       dockerfile: django_rest_api/Dockerfile
@@ -17,18 +15,49 @@ services:
     tty: true
     depends_on:
       - database
+      - redis
 
   database:
-    container_name: django_rest_database_container
+    container_name: database_container
     image: postgres:15
     volumes:
       - data:/var/lib/postgresql
-    environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    env_file:
+      - .env.dev
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
+      - 5432:5432
+
+  celery:
+    container_name: celery_container
+    build:
+      context: ../
+      dockerfile: django_rest_api/Dockerfile
+    command: celery --app=django_server worker -l INFO
+    user: "1000:1000"
+    env_file:
+      - .env.dev
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis_container
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # pytest:
+  #   container_name: pytest_container
+  #   build:
+  #     context: ../
+  #     dockerfile: django_rest_api/Dockerfile
+  #   command: pytest --html=/reports/test-results.html
+  #   volumes:
+  #     - .:/app
+  #     - ./reports:/reports
+  #   env_file:
+  #     - .env.test
 
 volumes:
   data:
