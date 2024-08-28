@@ -33,6 +33,9 @@ services:
       context: ../
       dockerfile: django_rest_api/Dockerfile
     command: celery --app=django_server worker -l INFO
+    user: "1000:1000"
+    env_file:
+      - .env.dev
     volumes:
       - .:/app
     depends_on:
@@ -44,17 +47,17 @@ services:
     ports:
       - "6379:6379"
 
-  pytest:
-    container_name: pytest_container
-    build:
-      context: ../
-      dockerfile: django_rest_api/Dockerfile
-    command: pytest --html=/reports/test-results.html
-    volumes:
-      - .:/app
-      - ./reports:/reports
-    env_file:
-      - .env.dev
+  # pytest:
+  #   container_name: pytest_container
+  #   build:
+  #     context: ../
+  #     dockerfile: django_rest_api/Dockerfile
+  #   command: pytest --html=/reports/test-results.html
+  #   volumes:
+  #     - .:/app
+  #     - ./reports:/reports
+  #   env_file:
+  #     - .env.test
 
 volumes:
   data:
