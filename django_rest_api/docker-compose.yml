@@ -9,8 +9,22 @@ services:
       - .:/app
     ports:
       - 8000:8000
-    env_file:
-      - .env.dev
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_HOST: ${DATABASE_HOST}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS}
+      EMAIL_USE_SSL: ${EMAIL_USE_SSL}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
     stdin_open: true
     tty: true
     depends_on:
@@ -22,8 +36,11 @@ services:
     image: postgres:15
     volumes:
       - data:/var/lib/postgresql
-    env_file:
-      - .env.dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
     ports:
       - 5432:5432
 
@@ -34,8 +51,6 @@ services:
       dockerfile: django_rest_api/Dockerfile
     command: celery --app=django_server worker -l INFO
     user: "1000:1000"
-    env_file:
-      - .env.dev
     volumes:
       - .:/app
     depends_on:
