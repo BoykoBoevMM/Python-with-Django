@@ -42,7 +42,7 @@ jobs:
       - name: Build and run services with Docker Compose
         working-directory: ./django_rest_api
         run: |
-          docker-compose up --build
+          docker-compose up --build -d
 
       - name: Wait for Django server to be ready
         working-directory: ./django_rest_api
