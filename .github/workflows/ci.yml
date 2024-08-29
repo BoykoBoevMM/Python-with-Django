@@ -47,7 +47,7 @@ jobs:
       - name: Run Tests
         working-directory: ./django_rest_api
         run: |
-          docker-compose exec django pytest --maxfail=5 --disable-warnings -v
+          docker-compose exec -T django pytest --maxfail=5 --disable-warnings -v
 
       - name: Tear down Docker Compose
         working-directory: ./django_rest_api
