@@ -33,14 +33,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Install Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+
       - name: Build and run services with Docker Compose
         working-directory: ./django_rest_api
         run: |
           docker-compose up --build -d
+
+      - name: Run Tests
+        working-directory: ./django_rest_api
+        run: |
+          docker-compose exec django pytest --maxfail=5 --disable-warnings -v
+
       - name: Tear down Docker Compose
         working-directory: ./django_rest_api
         run: |
