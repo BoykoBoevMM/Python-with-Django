@@ -42,7 +42,12 @@ jobs:
       - name: Build and run services with Docker Compose
         working-directory: ./django_rest_api
         run: |
-          docker-compose up --build -d
+          docker-compose up --build
+
+      - name: View Docker Compose logs
+        working-directory: ./django_rest_api
+        run: |
+          docker-compose logs
 
       - name: Wait for Django server to be ready
         working-directory: ./django_rest_api
@@ -53,11 +58,6 @@ jobs:
             echo "Waiting for Django server to be ready..."
           done
           echo "Django server is up and running!"
-
-      - name: View Docker Compose logs
-        working-directory: ./django_rest_api
-        run: |
-          docker-compose logs
 
       - name: Run Tests
         working-directory: ./django_rest_api
