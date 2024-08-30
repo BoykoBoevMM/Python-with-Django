@@ -31,8 +31,11 @@ services:
     stdin_open: true
     tty: true
     depends_on:
-      - database
-      - redis
+      database:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_healthy
 
   database:
     container_name: database_container
@@ -44,6 +47,12 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_PORT: ${DATABASE_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     ports:
       - 5432:5432
 
@@ -62,6 +71,11 @@ services:
   redis:
     container_name: redis_container
     image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
     ports:
       - "6379:6379"
 
