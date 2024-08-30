@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit',
     'rest_framework',
-    # 'bootstrap4',
     'django_extensions',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -138,8 +137,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 
