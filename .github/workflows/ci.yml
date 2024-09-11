@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    environment: dev
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: ${{ secrets.DEBUG }}
@@ -33,14 +34,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Install Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+
       - name: Build and run services with Docker Compose
         working-directory: ./django_rest_api
         run: |
           docker-compose up --build -d
+
+      - name: View Docker Compose logs
+        working-directory: ./django_rest_api
+        run: |
+          docker-compose logs
+
+      - name: Wait for Django server to be ready
+        working-directory: ./django_rest_api
+        run: |
+          echo "Waiting for Django server..."
+          until curl -s http://localhost:8000 > /dev/null; do
+            sleep 5
+            echo "Waiting for Django server to be ready..."
+          done
+          echo "Django server is up and running!"
+
+      - name: Run Tests
+        working-directory: ./django_rest_api
+        run: |
+          docker-compose exec -T django pytest --maxfail=5 --disable-warnings -v
+
       - name: Tear down Docker Compose
         working-directory: ./django_rest_api
         run: |
